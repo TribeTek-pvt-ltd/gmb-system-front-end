@@ -9,6 +9,7 @@ CREATE TABLE employees (
   phone TEXT,
   status TEXT CHECK (status IN ('Active', 'Inactive')) DEFAULT 'Active',
   last_login TIMESTAMPTZ,
+  privileges JSONB DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -41,6 +42,7 @@ CREATE TABLE enquiries (
   status TEXT CHECK (status IN ('Lead', 'Enquired', 'Quote Sent', 'Job Created', 'In Progress', 'Completed', 'Installed')) DEFAULT 'Lead',
   is_job BOOLEAN DEFAULT FALSE,
   notes TEXT,
+  measurement_data JSONB DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -146,5 +148,6 @@ CREATE TABLE quotation_items (
   quantity NUMERIC(10, 2) NOT NULL,
   unit_price NUMERIC(10, 2) NOT NULL,
   total_price NUMERIC(10, 2) NOT NULL,
+  metadata JSONB DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );

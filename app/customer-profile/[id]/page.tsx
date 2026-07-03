@@ -82,7 +82,10 @@ export default async function CustomerProfilePage({ params, searchParams }: { pa
             </div>
           </div>
 
-          <CustomerActionButtons />
+          <CustomerActionButtons 
+            customerId={customerUiModel.customer_id} 
+            hasJob={customerUiModel.hasJob} 
+          />
         </div>
       </div>
 

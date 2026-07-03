@@ -12,6 +12,16 @@ export const getQuotations = async () => {
   return data;
 };
 
+export const getQuotationsByCustomerId = async (customerId: string) => {
+  const { data, error } = await supabase.from('quotations').select(`
+    *,
+    items:quotation_items ( * )
+  `).eq('customer_id', customerId).order('created_at', { ascending: false });
+  
+  if (error) throw error;
+  return data;
+};
+
 export const getQuotationById = async (id: string) => {
   const { data, error } = await supabase.from('quotations').select(`
     *,

@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { Printer, Edit3, Eye } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { TrackerHeader } from "./TrackerHeader";
+import { FabricTrackingPanel } from "./FabricTrackingPanel";
+import { ManufacturingTable } from "./ManufacturingTable";
 
 export interface TrackerData {
   header: {
@@ -50,11 +53,11 @@ export function ProductionTracker({ initialData }: { initialData?: TrackerData }
 
   const [isPreview, setIsPreview] = useState(false);
 
-  const updateHeader = (field: keyof TrackerData["header"], value: any) => {
+  const updateHeader = (field: any, value: any) => {
     setData(prev => ({ ...prev, header: { ...prev.header, [field]: value } }));
   };
 
-  const updateFabric = (field: keyof TrackerData["fabricTracking"], value: string) => {
+  const updateFabric = (field: any, value: string) => {
     setData(prev => ({ ...prev, fabricTracking: { ...prev.fabricTracking, [field]: value } }));
   };
 
@@ -64,7 +67,7 @@ export function ProductionTracker({ initialData }: { initialData?: TrackerData }
     setData(prev => ({ ...prev, jobs: newJobs }));
   };
 
-  const updateHardware = (field: keyof TrackerData["hardwareSummary"], value: number) => {
+  const updateHardware = (field: any, value: number) => {
     setData(prev => ({ ...prev, hardwareSummary: { ...prev.hardwareSummary, [field]: value } }));
   };
 
@@ -128,131 +131,25 @@ export function ProductionTracker({ initialData }: { initialData?: TrackerData }
           Holland Block Out
         </h1>
 
-        {/* Top Info Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-10">
-          {/* General Fields */}
-          <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-7">
-            <DisplayField label="Attention" value={data.header.attention} onChange={(v: string) => updateHeader("attention", v)} />
-            <DisplayField label="Client's Name" value={data.header.clientName} onChange={(v: string) => updateHeader("clientName", v)} />
-            <DisplayField label="Client's Number" value={data.header.clientNumber} onChange={(v: string) => updateHeader("clientNumber", v)} />
-            <DisplayField label="Status" value={data.header.status} onChange={(v: string) => updateHeader("status", v)} />
-            <DisplayField label="Project Manager" value={data.header.projectManager} onChange={(v: string) => updateHeader("projectManager", v)} />
-            <DisplayField label="Number of Blinds" type="number" value={data.header.numberOfBlinds} onChange={(v: string) => updateHeader("numberOfBlinds", parseInt(v) || 0)} />
-            <DisplayField label="Supply & Install" type="select" value={data.header.supplyAndInstall} onChange={(v: string) => updateHeader("supplyAndInstall", v)} />
-            <DisplayField label="Production Date" type="date" value={data.header.productionDate} onChange={(v: string) => updateHeader("productionDate", v)} />
-            <div className="flex gap-6">
-              <DisplayField label="Start Time" type="time" value={data.header.startTime} onChange={(v: string) => updateHeader("startTime", v)} className="flex-1" />
-              <DisplayField label="Finished Time" type="time" value={data.header.finishedTime} onChange={(v: string) => updateHeader("finishedTime", v)} className="flex-1" />
-            </div>
-          </div>
-
-          {/* Fabric Tracking Panel */}
-          <div className="bg-muted/20 border border-border p-6 rounded-2xl self-start">
-            <h3 className="font-bold text-sm mb-6 pb-2 border-b border-border text-foreground tracking-tight">Fabric Tracking</h3>
-            <div className="space-y-4">
-              {[
-                { label: "Needed Fabric", field: "neededFabric" },
-                { label: "Any Stock", field: "anyStock" },
-                { label: "Ordered Fabric", field: "orderedFabric" },
-                { label: "Received Fabric", field: "receivedFabric" }
-              ].map(({ label, field }) => (
-                <div key={field} className="flex items-center justify-between gap-4">
-                  <span className="font-medium text-muted-foreground">{label}</span>
-                  {isPreview ? (
-                    <span className="text-right font-semibold">{(data.fabricTracking as any)[field] || "—"}</span>
-                  ) : (
-                    <input 
-                      type="text" 
-                      value={(data.fabricTracking as any)[field]} 
-                      onChange={(e) => updateFabric(field as any, e.target.value)}
-                      className="w-24 border border-border rounded-lg px-2 py-1.5 text-right focus:outline-none focus:ring-2 focus:ring-accent bg-background text-foreground" 
-                    />
-                  )}
-                </div>
-              ))}
-              <div className="flex items-center justify-between pt-4 border-t border-border">
-                <span className="font-bold text-foreground">Balance Fabric</span>
-                {isPreview ? (
-                  <span className="text-right font-bold text-accent">{data.fabricTracking.balanceFabric || "—"}</span>
-                ) : (
-                  <input 
-                    type="text" 
-                    value={data.fabricTracking.balanceFabric} 
-                    onChange={(e) => updateFabric("balanceFabric", e.target.value)}
-                    className="w-24 border border-border font-bold rounded-lg px-2 py-1.5 text-right focus:outline-none focus:ring-2 focus:ring-accent bg-background text-accent" 
-                  />
-                )}
-              </div>
-            </div>
-          </div>
+          <TrackerHeader 
+            data={data.header} 
+            updateHeader={updateHeader} 
+            isPreview={isPreview} 
+            DisplayField={DisplayField} 
+          />
+          <FabricTrackingPanel 
+            fabricTracking={data.fabricTracking} 
+            updateFabric={updateFabric} 
+            isPreview={isPreview} 
+          />
         </div>
 
-        {/* Main Manufacturing Table */}
-        <div className={`overflow-x-auto border border-border rounded-xl ${isPreview ? 'shadow-inner bg-muted/5' : ''}`}>
-          <table className="w-full text-left border-collapse min-w-[1400px]">
-            <thead>
-              <tr className="bg-muted/50 border-b border-border text-center text-[10px] uppercase font-black tracking-widest text-muted-foreground">
-                <th colSpan={5} className="py-3 border-r border-border px-2">Fabric Supplier Section</th>
-                <th colSpan={7} className="py-3 border-r border-border px-2">Collection Section</th>
-                <th colSpan={2} className="py-3 border-r border-border px-2 bg-accent/5 text-accent">Fabric Info</th>
-                <th colSpan={4} className="py-3 px-2 bg-orange-500/5 text-orange-500">Dimensions (mm)</th>
-              </tr>
-              <tr className="bg-muted/30 border-b border-border text-[9px] font-bold text-center leading-tight text-foreground uppercase tracking-wider">
-                {["Supplier", "Location", "Control", "Bracket", "Chain"].map(h => <th key={h} className="border-r border-border p-2.5">{h}</th>)}
-                {["Customer", "Collection", "Bottom", "Rolling", "Mount", "Surface", "Pelmet"].map(h => <th key={h} className="border-r border-border p-2.5">{h}</th>)}
-                <th className="border-r border-border p-2.5 bg-accent/5 w-16">Needed</th>
-                <th className="border-r border-border p-2.5 bg-accent/5 min-w-[120px]">Notes</th>
-                <th className="border-r border-border p-2.5 bg-orange-500/5 w-16 text-orange-500/80">W (Act)</th>
-                <th className="border-r border-border p-2.5 bg-red-500/10 text-red-500 w-16">W (Cut)</th>
-                <th className="border-r border-border p-2.5 bg-orange-500/5 w-16 text-orange-500/80">H (Act)</th>
-                <th className="p-2.5 bg-red-500/10 text-red-500 w-16">H (Cut)</th>
-              </tr>
-            </thead>
-            <tbody className="bg-card">
-              {data.jobs.map((job, i) => (
-                <tr key={i} className={`border-b border-border transition-colors ${isPreview ? '' : 'hover:bg-muted/20'}`}>
-                  {[
-                    "supplier", "location", "control", "bracket", "chain",
-                    "customer", "collectionName", "bottomStyle", "rollingWay", "mountPoint", "surface", "pelmetType"
-                  ].map(field => (
-                    <td key={field} className="border-r border-border">
-                      {isPreview ? (
-                        <div className="px-2.5 py-2.5 min-h-[2.5rem] flex items-center justify-center text-center">
-                          {job[field] || ""}
-                        </div>
-                      ) : (
-                        <input 
-                          type="text" 
-                          value={job[field] || ""} 
-                          onChange={(e) => updateJob(i, field, e.target.value)}
-                          className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background text-foreground text-center" 
-                        />
-                      )}
-                    </td>
-                  ))}
-                  <td className="border-r border-border bg-accent/5">
-                    {isPreview ? <div className="px-2.5 py-2.5 text-center font-medium">{job.neededFabric}</div> : <input type="text" value={job.neededFabric || ""} onChange={(e) => updateJob(i, "neededFabric", e.target.value)} className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background text-foreground text-center" />}
-                  </td>
-                  <td className="border-r border-border bg-accent/5">
-                    {isPreview ? <div className="px-2.5 py-2.5 text-xs italic opacity-70">{job.notes}</div> : <input type="text" value={job.notes || ""} onChange={(e) => updateJob(i, "notes", e.target.value)} className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background text-foreground" />}
-                  </td>
-                  <td className="border-r border-border bg-orange-500/5">
-                    {isPreview ? <div className="px-2.5 py-2.5 text-center font-mono">{job.wActual}</div> : <input type="text" value={job.wActual || ""} onChange={(e) => updateJob(i, "wActual", e.target.value)} className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background font-mono text-center text-foreground" />}
-                  </td>
-                  <td className="border-r border-border bg-red-500/5">
-                    {isPreview ? <div className="px-2.5 py-2.5 text-center font-bold text-red-500 font-mono">{job.wCut}</div> : <input type="text" value={job.wCut || ""} onChange={(e) => updateJob(i, "wCut", e.target.value)} className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background font-mono text-red-500 font-bold text-center" />}
-                  </td>
-                  <td className="border-r border-border bg-orange-500/5">
-                    {isPreview ? <div className="px-2.5 py-2.5 text-center font-mono">{job.hActual}</div> : <input type="text" value={job.hActual || ""} onChange={(e) => updateJob(i, "hActual", e.target.value)} className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background font-mono text-center text-foreground" />}
-                  </td>
-                  <td className="bg-red-500/5">
-                    {isPreview ? <div className="px-2.5 py-2.5 text-center font-bold text-red-500 font-mono">{job.hCut}</div> : <input type="text" value={job.hCut || ""} onChange={(e) => updateJob(i, "hCut", e.target.value)} className="w-full bg-transparent px-2.5 py-2.5 focus:outline-none focus:bg-background font-mono text-red-500 font-bold text-center" />}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ManufacturingTable 
+          jobs={data.jobs} 
+          isPreview={isPreview} 
+          updateJob={updateJob} 
+        />
 
         {/* Bottom Section */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-12 pb-8">

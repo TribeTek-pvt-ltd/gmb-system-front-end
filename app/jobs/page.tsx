@@ -1,16 +1,10 @@
 import { JobsList } from "@/components/jobs/JobsList";
-import { supabase } from "@/lib/supabaseClient";
+import { getJobs } from "@/lib/db/jobs";
 
 export default async function JobsPage() {
-  // Fetch actual enquiries where is_job is true and map local relations
   let jobs = [];
   try {
-    const { data } = await supabase
-      .from('enquiries')
-      .select('*, customer:customers(*)')
-      .eq('is_job', true)
-      .order('created_at', { ascending: false });
-    if (data) jobs = data;
+    jobs = await getJobs();
   } catch (error) {
     console.error("Failed to load jobs", error);
   }

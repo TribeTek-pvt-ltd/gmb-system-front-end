@@ -15,7 +15,41 @@ export const getOrderById = async (id: string) => {
 
 export const createOrder = async (order: Omit<Order, 'order_id' | 'order_date' | 'created_at'>) => {
   const { data, error } = await supabase.from('orders').insert([order]).select().single();
+  
   if (error) throw error;
+
+  // Update inventory if stock is received
+  if (order.status === 'Stock Received') {
+    try {
+      const { data: inv } = await supabase
+        .from('inventory')
+        .select('*')
+        .eq('product_id', order.products_catalog_id)
+        .maybeSingle();
+
+      if (inv) {
+        await supabase
+          .from('inventory')
+          .update({ 
+            quantity_on_hand: (inv.quantity_on_hand || 0) + order.quantity,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', inv.id);
+      } else {
+        await supabase
+          .from('inventory')
+          .insert([{
+            product_id: order.products_catalog_id,
+            quantity_on_hand: order.quantity,
+            reorder_level: 0
+          }]);
+      }
+    } catch (invErr) {
+      console.error("Failed to update inventory sync:", invErr);
+      // We don't throw here to avoid failing the order creation if inventory update fails
+    }
+  }
+
   return data as Order;
 };
 

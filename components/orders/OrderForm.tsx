@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Save, ShoppingCart } from "lucide-react";
+import { Loader2, Save, ShoppingCart, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 interface OrderFormProps {
@@ -17,12 +17,29 @@ export function OrderForm({ onClose, onSave, products, suppliers }: OrderFormPro
     supplier_id: suppliers[0]?.supplier_id || "",
     products_catalog_id: products[0]?.products_catalog_id || "",
     quantity: 1,
-    unit: "m",
+    unit: "count",
     order_date: new Date().toISOString().split('T')[0],
     expected_delivery_date: "",
-    total_amount: 0,
     status: "Order Placed",
   });
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSaveWithStatus = async (status: string) => {
+    setSaving(true);
+    setShowDropdown(false);
+    try {
+      await onSave({
+        ...formData,
+        status,
+        quantity: Number(formData.quantity)
+      });
+      onClose();
+    } catch {
+      alert("Failed to create order");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +47,7 @@ export function OrderForm({ onClose, onSave, products, suppliers }: OrderFormPro
     try {
       await onSave({
         ...formData,
-        quantity: Number(formData.quantity),
-        total_amount: Number(formData.total_amount)
+        quantity: Number(formData.quantity)
       });
       onClose();
     } catch {
@@ -88,14 +104,42 @@ export function OrderForm({ onClose, onSave, products, suppliers }: OrderFormPro
           </div>
         </div>
 
-        <div>
-          <label className="text-xs font-bold text-muted-foreground uppercase">Total Amount ($)</label>
-          <input type="number" step="0.01" required className="w-full h-10 border rounded-lg px-3 mt-1 text-sm font-mono bg-muted/30" value={formData.total_amount} onChange={e => setFormData({...formData, total_amount: Number(e.target.value)})} />
-        </div>
-        
         <div className="pt-4 flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
-          <Button disabled={saving} type="submit">{saving ? <Loader2 className="animate-spin h-4 w-4" /> : <Save className="h-4 w-4 mr-2" />} Save</Button>
+          <div className="flex items-center">
+            <Button disabled={saving} type="submit" className="rounded-r-none border-r border-white/10">
+              {saving ? <Loader2 className="animate-spin h-4 w-4" /> : <Save className="h-4 w-4 mr-2" />} Save
+            </Button>
+            <div className="relative">
+              <Button 
+                type="button" 
+                disabled={saving} 
+                className="rounded-l-none px-2 h-10"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <ChevronDown className={`h-4 w-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
+              </Button>
+              
+              {showDropdown && (
+                <div className="absolute right-0 bottom-full mb-2 w-48 bg-card border rounded-xl shadow-xl overflow-hidden z-[110] animate-in fade-in slide-in-from-bottom-2">
+                  <button 
+                    type="button"
+                    className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors border-b flex items-center gap-2"
+                    onClick={() => handleSaveWithStatus("Pending")}
+                  >
+                    Approve Order
+                  </button>
+                  <button 
+                    type="button"
+                    className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
+                    onClick={() => handleSaveWithStatus("Stock Received")}
+                  >
+                    Order Receive
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </form>
     </div>

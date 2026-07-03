@@ -18,6 +18,7 @@ const navigation = [
   { name: "Orders", href: "/orders", icon: ShoppingCart, section: "main" },
   { name: "Measurements", href: "/measurements", icon: ClipboardList, section: "paperwork" },
   { name: "Measure Image", href: "/measure-by-image", icon: Ruler, section: "paperwork" },
+  { name: "Quotations", href: "/quotations", icon: FileText, section: "paperwork" },
   { name: "Employees", href: "/employees", icon: UserCog, section: "admin" },
 ];
 

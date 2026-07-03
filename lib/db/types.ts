@@ -9,6 +9,7 @@ export type Employee = {
   status: 'Active' | 'Inactive';
   last_login: string | null;
   created_at: string;
+  privileges?: Record<string, { create: boolean; read: boolean; update: boolean; delete: boolean; all: boolean }>;
 };
 
 export type Customer = {
@@ -30,6 +31,7 @@ export type Enquiry = {
   status: 'Lead' | 'Enquired' | 'Quote Sent' | 'Job Created' | 'In Progress' | 'Completed' | 'Installed';
   is_job: boolean;
   notes: string | null;
+  measurement_data?: Record<string, any> | null;
   created_at: string;
 };
 
@@ -59,14 +61,30 @@ export type Category = {
   parent: string | null;
 };
 
+export type PricingItem = {
+  id: string;
+  name: string;
+  price: number | null;
+};
+
+export type PricingGroup = {
+  id: string;
+  group_name: string;
+  price: number | null;     // optional group-level price
+  items: PricingItem[];     // sub-items (sub-categories / fabrics)
+};
+
 export type ProductCatalog = {
   products_catalog_id: string;
   item_name: string;
   category_id: string;
+  sub_category_id?: string | null;
   description: string | null;
-  base_price: number;
+  pricing_groups: PricingGroup[];
   unit: 'm' | 'mm' | 'cm' | 'count';
   status: 'Active' | 'Inactive';
+  is_component: boolean;
+  components: string[];
   created_at: string;
 };
 
@@ -99,9 +117,9 @@ export type Order = {
   order_id: string;
   supplier_id: string | null;
   products_catalog_id: string;
-  job_id: string;
+  job_id: string | null;
   quantity: number;
-  unit: 'm' | 'mm' | 'cm' | 'count';
+  unit: 'm' | 'mm' | 'cm' | 'count' | 'sqm';
   status: 'Order Placed' | 'Pending' | 'Completed' | 'Stock Received';
   total_amount: number;
   order_date: string;
@@ -132,5 +150,39 @@ export type QuotationItem = {
   quantity: number;
   unit_price: number;
   total_price: number;
+  metadata?: Record<string, any> | null;
+  created_at: string;
+};
+
+export type Job = {
+  id: string;
+  customer_id: string;
+  enquiry_id: string | null;
+  quotation_id: string | null;
+  measurement_id: string | null;
+  status: 'Job Created' | 'In Progress' | 'Completed' | 'Installed';
+  total_amount: number;
+  paid_amount: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PaymentHistory = {
+  id: string;
+  job_id: string;
+  amount: number;
+  payment_date: string;
+  payment_method: string | null;
+  reference_number: string | null;
+  notes: string | null;
+  created_at: string;
+};
+
+export type Invoice = {
+  id: string;
+  job_id: string;
+  invoice_number: string;
+  amount: number;
+  status: 'Draft' | 'Sent' | 'Paid' | 'Cancelled';
   created_at: string;
 };

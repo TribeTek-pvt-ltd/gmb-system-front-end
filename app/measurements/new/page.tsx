@@ -1,15 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import {
-  Plus, Save, Trash2, Copy, Eye, ChevronRight,
-  User, MapPin, Phone, Mail, Building2, Car, PawPrint,
-  Info, Palette, Layers, Package, DollarSign, Home,
-  Wrench, Clock, Calendar, Camera, ArrowLeft,
-  CheckCircle, AlertCircle, Ruler, FileText, ClipboardList,
-  ChevronDown, AppWindow, Maximize2, LayoutGrid,
-} from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -113,19 +105,18 @@ function SectionCard({ icon: Icon, title, defaultExpanded = true, color = "accen
 
   return (
     <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
-      <div 
+      <div
         className="flex items-center justify-between px-6 py-4 border-b border-border bg-muted/20 cursor-pointer hover:bg-muted/30 transition-colors"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex items-center gap-3">
-          <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-            color === "accent" ? "bg-accent/15 text-accent" :
-            color === "green" ? "bg-green-500/15 text-green-500" :
-            color === "blue" ? "bg-blue-500/15 text-blue-500" :
-            color === "orange" ? "bg-orange-500/15 text-orange-500" :
-            color === "purple" ? "bg-purple-500/15 text-purple-500" :
-            "bg-muted text-muted-foreground"
-          }`}>
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${color === "accent" ? "bg-accent/15 text-accent" :
+              color === "green" ? "bg-green-500/15 text-green-500" :
+                color === "blue" ? "bg-blue-500/15 text-blue-500" :
+                  color === "orange" ? "bg-orange-500/15 text-orange-500" :
+                    color === "purple" ? "bg-purple-500/15 text-purple-500" :
+                      "bg-muted text-muted-foreground"
+            }`}>
             <Icon className="h-4 w-4" />
           </div>
           <h3 className="font-semibold text-sm text-foreground">{title}</h3>
@@ -187,11 +178,10 @@ function TogglePill({ label, checked, onChange }: {
     <button
       type="button"
       onClick={() => onChange(!checked)}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
-        checked
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${checked
           ? "bg-accent text-accent-foreground border-accent shadow-sm"
           : "bg-muted/30 text-muted-foreground border-border hover:border-accent/50"
-      }`}
+        }`}
     >
       {checked ? <CheckCircle className="h-3.5 w-3.5" /> : <AlertCircle className="h-3.5 w-3.5 opacity-50" />}
       {label}
@@ -217,9 +207,9 @@ function CoveringForm({
 
   const typeColor =
     cov.coveringType === "Curtain" || cov.coveringType === "Sheer" ? "purple" :
-    cov.coveringType === "Roller Blinds" ? "blue" :
-    cov.coveringType === "Plantation Shutter" ? "green" :
-    cov.coveringType === "No Covering" ? "muted" : "orange";
+      cov.coveringType === "Roller Blinds" ? "blue" :
+        cov.coveringType === "Plantation Shutter" ? "green" :
+          cov.coveringType === "No Covering" ? "muted" : "orange";
 
   const tabs: { id: TabOptions; label: string }[] = [
     { id: "details", label: "Details" },
@@ -229,29 +219,27 @@ function CoveringForm({
   ];
 
   return (
-    <div className={`rounded-xl border transition-all duration-300 ${
-      cov.coveringType === "No Covering" ? "border-border/40 bg-muted/10" : "border-border bg-card shadow-sm"
-    }`}>
+    <div className={`rounded-xl border transition-all duration-300 ${cov.coveringType === "No Covering" ? "border-border/40 bg-muted/10" : "border-border bg-card shadow-sm"
+      }`}>
       {/* Covering Header */}
       <div
         className="flex items-center gap-3 px-5 py-4 cursor-pointer hover:bg-muted/10 transition-colors"
         onClick={() => setExpanded(e => !e)}
       >
-        <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${
-          typeColor === "purple" ? "bg-purple-500/15 text-purple-500" :
-          typeColor === "blue" ? "bg-blue-500/15 text-blue-500" :
-          typeColor === "green" ? "bg-green-500/15 text-green-500" :
-          typeColor === "orange" ? "bg-orange-500/15 text-orange-500" :
-          "bg-muted/50 text-muted-foreground"
-        }`}>
+        <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${typeColor === "purple" ? "bg-purple-500/15 text-purple-500" :
+            typeColor === "blue" ? "bg-blue-500/15 text-blue-500" :
+              typeColor === "green" ? "bg-green-500/15 text-green-500" :
+                typeColor === "orange" ? "bg-orange-500/15 text-orange-500" :
+                  "bg-muted/50 text-muted-foreground"
+          }`}>
           <Layers className="h-4 w-4" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-sm text-foreground">{cov.coveringType}</p>
           {!expanded && cov.coveringType !== "No Covering" && (
-             <p className="text-xs text-muted-foreground mt-0.5 truncate">
-               {cov.qty}x • {cov.opacity !== "N/A" ? cov.opacity : cov.spec || "No fabric specified"} • {cov.inWidth ? `${cov.inWidth}w` : "?w"} x {cov.inDrop ? `${cov.inDrop}d` : "?d"} {cov.m4 !== "N/A" ? `• ${cov.m4}` : ""}
-             </p>
+            <p className="text-xs text-muted-foreground mt-0.5 truncate">
+              {cov.qty}x • {cov.opacity !== "N/A" ? cov.opacity : cov.spec || "No fabric specified"} • {cov.inWidth ? `${cov.inWidth}w` : "?w"} x {cov.inDrop ? `${cov.inDrop}d` : "?d"} {cov.m4 !== "N/A" ? `• ${cov.m4}` : ""}
+            </p>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -270,261 +258,260 @@ function CoveringForm({
       </div>
 
       <AnimatePresence initial={false}>
-      {expanded && cov.coveringType !== "No Covering" && (
-        <motion.div 
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="overflow-hidden border-t border-border/50"
-        >
-          {/* Tabs Navigation */}
-          <div className="flex overflow-x-auto no-scrollbar border-b border-border bg-muted/5 px-4 pt-1">
-            {tabs.map(t => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setActiveTab(t.id)}
-                className={`whitespace-nowrap px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 ${
-                  activeTab === t.id
-                    ? "border-accent text-accent"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
+        {expanded && cov.coveringType !== "No Covering" && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden border-t border-border/50"
+          >
+            {/* Tabs Navigation */}
+            <div className="flex overflow-x-auto no-scrollbar border-b border-border bg-muted/5 px-4 pt-1">
+              {tabs.map(t => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setActiveTab(t.id)}
+                  className={`whitespace-nowrap px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 ${activeTab === t.id
+                      ? "border-accent text-accent"
+                      : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                    }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
 
-          <div className="p-5">
-            {/* Tab: DETAILS */}
-            {activeTab === "details" && (
-              <motion.div initial={{opacity:0, y:5}} animate={{opacity:1, y:0}} className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="col-span-2 md:col-span-4">
-                  <InputField label="Covering Type" id="">
-                    <select value={cov.coveringType} onChange={e => update("coveringType", e.target.value)} className={selectCls}>
-                      {coveringTypes.filter(t => t !== "No Covering").map(t => <option key={t}>{t}</option>)}
-                    </select>
-                  </InputField>
-                </div>
-                <div className="col-span-2 md:col-span-2">
-                  <InputField label="Opacity / Style" id="">
-                    <select value={cov.opacity} onChange={e => update("opacity", e.target.value)} className={selectCls}>
-                      {opacityOptions.map(o => <option key={o}>{o}</option>)}
-                    </select>
-                  </InputField>
-                </div>
-                <div className="col-span-1 md:col-span-1">
-                  <InputField label="Qty" id="">
-                    <input type="number" min={1} value={cov.qty} onChange={e => update("qty", parseInt(e.target.value) || 1)}
-                      className={inputCls + " text-center font-mono"} />
-                  </InputField>
-                </div>
-                <div className="col-span-2 md:col-span-4">
-                  <InputField label="Fabric / Spec" id="">
-                    <input type="text" value={cov.spec} onChange={e => update("spec", e.target.value)}
-                      placeholder="e.g. Group 3 - Shaw Karma" className={inputCls} />
-                  </InputField>
-                </div>
-              </motion.div>
-            )}
+            <div className="p-5">
+              {/* Tab: DETAILS */}
+              {activeTab === "details" && (
+                <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="col-span-2 md:col-span-4">
+                    <InputField label="Covering Type" id="">
+                      <select value={cov.coveringType} onChange={e => update("coveringType", e.target.value)} className={selectCls}>
+                        {coveringTypes.filter(t => t !== "No Covering").map(t => <option key={t}>{t}</option>)}
+                      </select>
+                    </InputField>
+                  </div>
+                  <div className="col-span-2 md:col-span-2">
+                    <InputField label="Opacity / Style" id="">
+                      <select value={cov.opacity} onChange={e => update("opacity", e.target.value)} className={selectCls}>
+                        {opacityOptions.map(o => <option key={o}>{o}</option>)}
+                      </select>
+                    </InputField>
+                  </div>
+                  <div className="col-span-1 md:col-span-1">
+                    <InputField label="Qty" id="">
+                      <input type="number" min={1} value={cov.qty} onChange={e => update("qty", parseInt(e.target.value) || 1)}
+                        className={inputCls + " text-center font-mono"} />
+                    </InputField>
+                  </div>
+                  <div className="col-span-2 md:col-span-4">
+                    <InputField label="Fabric / Spec" id="">
+                      <input type="text" value={cov.spec} onChange={e => update("spec", e.target.value)}
+                        placeholder="e.g. Group 3 - Shaw Karma" className={inputCls} />
+                    </InputField>
+                  </div>
+                </motion.div>
+              )}
 
-            {/* Tab: DIMENSIONS */}
-            {activeTab === "dimensions" && (
-              <motion.div initial={{opacity:0, y:5}} animate={{opacity:1, y:0}} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* In Frame */}
-                  <div className="rounded-xl border border-border/60 p-4 bg-muted/10">
-                    <p className="text-[10px] font-bold text-blue-500 uppercase flex items-center gap-2 mb-3 border-b border-border/40 pb-2">
-                      <Maximize2 className="h-3 w-3" /> In Frame Dimensions
-                    </p>
-                    <div className="grid grid-cols-2 gap-4">
-                      <InputField label="Width (mm)" id="">
-                        <input type="number" value={cov.inWidth || ""} onChange={e => update("inWidth", parseFloat(e.target.value) || 0)}
+              {/* Tab: DIMENSIONS */}
+              {activeTab === "dimensions" && (
+                <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* In Frame */}
+                    <div className="rounded-xl border border-border/60 p-4 bg-muted/10">
+                      <p className="text-[10px] font-bold text-blue-500 uppercase flex items-center gap-2 mb-3 border-b border-border/40 pb-2">
+                        <Maximize2 className="h-3 w-3" /> In Frame Dimensions
+                      </p>
+                      <div className="grid grid-cols-2 gap-4">
+                        <InputField label="Width (mm)" id="">
+                          <input type="number" value={cov.inWidth || ""} onChange={e => update("inWidth", parseFloat(e.target.value) || 0)}
+                            className={dimInputCls} placeholder="0" />
+                        </InputField>
+                        <InputField label="Drop (mm)" id="">
+                          <input type="number" value={cov.inDrop || ""} onChange={e => update("inDrop", parseFloat(e.target.value) || 0)}
+                            className={dimInputCls} placeholder="0" />
+                        </InputField>
+                      </div>
+                    </div>
+                    {/* Out Frame */}
+                    <div className="rounded-xl border border-border/60 p-4 bg-muted/10">
+                      <p className="text-[10px] font-bold text-orange-500 uppercase flex items-center gap-2 mb-3 border-b border-border/40 pb-2">
+                        <AppWindow className="h-3 w-3" /> Out Frame Dimensions
+                      </p>
+                      <div className="grid grid-cols-2 gap-4">
+                        <InputField label="Width (mm)" id="">
+                          <input type="number" value={cov.outWidth || ""} onChange={e => update("outWidth", parseFloat(e.target.value) || 0)}
+                            className={dimInputCls} placeholder="0" />
+                        </InputField>
+                        <InputField label="Drop (mm)" id="">
+                          <input type="number" value={cov.outDrop || ""} onChange={e => update("outDrop", parseFloat(e.target.value) || 0)}
+                            className={dimInputCls} placeholder="0" />
+                        </InputField>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-xl border border-border/60 p-4 bg-muted/5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2 mb-3">Adjustments & Clearances</p>
+                    <div className="grid grid-cols-3 gap-4">
+                      <InputField label="Add Left (mm)" id="">
+                        <input type="number" value={cov.addL || ""} onChange={e => update("addL", parseFloat(e.target.value) || 0)}
                           className={dimInputCls} placeholder="0" />
                       </InputField>
-                      <InputField label="Drop (mm)" id="">
-                        <input type="number" value={cov.inDrop || ""} onChange={e => update("inDrop", parseFloat(e.target.value) || 0)}
+                      <InputField label="Add Right (mm)" id="">
+                        <input type="number" value={cov.addR || ""} onChange={e => update("addR", parseFloat(e.target.value) || 0)}
+                          className={dimInputCls} placeholder="0" />
+                      </InputField>
+                      <InputField label="End–End (mm)" id="">
+                        <input type="number" value={cov.endToEnd || ""} onChange={e => update("endToEnd", parseFloat(e.target.value) || 0)}
                           className={dimInputCls} placeholder="0" />
                       </InputField>
                     </div>
                   </div>
-                  {/* Out Frame */}
-                  <div className="rounded-xl border border-border/60 p-4 bg-muted/10">
-                    <p className="text-[10px] font-bold text-orange-500 uppercase flex items-center gap-2 mb-3 border-b border-border/40 pb-2">
-                      <AppWindow className="h-3 w-3" /> Out Frame Dimensions
-                    </p>
-                    <div className="grid grid-cols-2 gap-4">
-                      <InputField label="Width (mm)" id="">
-                        <input type="number" value={cov.outWidth || ""} onChange={e => update("outWidth", parseFloat(e.target.value) || 0)}
-                          className={dimInputCls} placeholder="0" />
-                      </InputField>
-                      <InputField label="Drop (mm)" id="">
-                        <input type="number" value={cov.outDrop || ""} onChange={e => update("outDrop", parseFloat(e.target.value) || 0)}
-                          className={dimInputCls} placeholder="0" />
-                      </InputField>
-                    </div>
-                  </div>
-                </div>
+                </motion.div>
+              )}
 
-                <div className="rounded-xl border border-border/60 p-4 bg-muted/5">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2 mb-3">Adjustments & Clearances</p>
-                  <div className="grid grid-cols-3 gap-4">
-                    <InputField label="Add Left (mm)" id="">
-                      <input type="number" value={cov.addL || ""} onChange={e => update("addL", parseFloat(e.target.value) || 0)}
-                        className={dimInputCls} placeholder="0" />
-                    </InputField>
-                    <InputField label="Add Right (mm)" id="">
-                      <input type="number" value={cov.addR || ""} onChange={e => update("addR", parseFloat(e.target.value) || 0)}
-                        className={dimInputCls} placeholder="0" />
-                    </InputField>
-                    <InputField label="End–End (mm)" id="">
-                      <input type="number" value={cov.endToEnd || ""} onChange={e => update("endToEnd", parseFloat(e.target.value) || 0)}
-                        className={dimInputCls} placeholder="0" />
-                    </InputField>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Tab: HARDWARE */}
-            {activeTab === "hardware" && (
-              <motion.div initial={{opacity:0, y:5}} animate={{opacity:1, y:0}} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Specifics */}
-                <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-3">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2">Specs & Controls</p>
-                  <InputField label="SP1 — Style" id="">
-                    <select value={cov.sp1} onChange={e => update("sp1", e.target.value)} className={selectCls}>
-                      {sp1Options.map(o => <option key={o}>{o}</option>)}
-                    </select>
-                  </InputField>
-                  <InputField label="SP2 — Operation" id="">
-                    <select value={cov.sp2} onChange={e => update("sp2", e.target.value)} className={selectCls}>
-                      {sp2Options.map(o => <option key={o}>{o}</option>)}
-                    </select>
-                  </InputField>
-                  <InputField label="SP3 — Control Drive" id="">
-                    <select value={cov.sp3} onChange={e => update("sp3", e.target.value)} className={selectCls}>
-                      {sp3Options.map(o => <option key={o}>{o}</option>)}
-                    </select>
-                  </InputField>
-                  <div className="grid grid-cols-3 gap-2 mt-2">
-                    {(["c1","c2","c3"] as const).map(f => (
-                      <InputField key={f} label={f.toUpperCase()} id="">
-                        <input type="text" value={cov[f]} onChange={e => update(f, e.target.value)}
-                          className={inputCls + " text-center px-1"} placeholder="—" />
-                      </InputField>
-                    ))}
-                  </div>
-                  <InputField label="C4 — Bottom Rail" id="">
-                    <select value={cov.c4} onChange={e => update("c4", e.target.value)} className={selectCls}>
-                      {c4Options.map(o => <option key={o}>{o}</option>)}
-                    </select>
-                  </InputField>
-                </div>
-
-                {/* Mounting */}
-                <div className="space-y-4">
+              {/* Tab: HARDWARE */}
+              {activeTab === "hardware" && (
+                <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Specifics */}
                   <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-3">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2">Mounting Point</p>
-                    <InputField label="M1 — Width Range" id="">
-                      <select value={cov.m1} onChange={e => update("m1", e.target.value)} className={selectCls}>
-                        {m1Options.map(o => <option key={o}>{o}</option>)}
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2">Specs & Controls</p>
+                    <InputField label="SP1 — Style" id="">
+                      <select value={cov.sp1} onChange={e => update("sp1", e.target.value)} className={selectCls}>
+                        {sp1Options.map(o => <option key={o}>{o}</option>)}
                       </select>
                     </InputField>
-                    <InputField label="M3 — Drop Range" id="">
-                      <select value={cov.m3} onChange={e => update("m3", e.target.value)} className={selectCls}>
-                        {m3Options.map(o => <option key={o}>{o}</option>)}
+                    <InputField label="SP2 — Operation" id="">
+                      <select value={cov.sp2} onChange={e => update("sp2", e.target.value)} className={selectCls}>
+                        {sp2Options.map(o => <option key={o}>{o}</option>)}
                       </select>
                     </InputField>
-                    <InputField label="M4 — Fixing Point" id="">
-                      <select value={cov.m4} onChange={e => update("m4", e.target.value)} className={selectCls}>
-                        {m4Options.map(o => <option key={o}>{o}</option>)}
+                    <InputField label="SP3 — Control Drive" id="">
+                      <select value={cov.sp3} onChange={e => update("sp3", e.target.value)} className={selectCls}>
+                        {sp3Options.map(o => <option key={o}>{o}</option>)}
                       </select>
                     </InputField>
-                    <InputField label="Surface" id="">
-                      <select value={cov.surface} onChange={e => update("surface", e.target.value)} className={selectCls}>
-                        {surfaceOptions.map(o => <option key={o}>{o}</option>)}
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                      {(["c1", "c2", "c3"] as const).map(f => (
+                        <InputField key={f} label={f.toUpperCase()} id="">
+                          <input type="text" value={cov[f]} onChange={e => update(f, e.target.value)}
+                            className={inputCls + " text-center px-1"} placeholder="—" />
+                        </InputField>
+                      ))}
+                    </div>
+                    <InputField label="C4 — Bottom Rail" id="">
+                      <select value={cov.c4} onChange={e => update("c4", e.target.value)} className={selectCls}>
+                        {c4Options.map(o => <option key={o}>{o}</option>)}
                       </select>
                     </InputField>
                   </div>
 
-                  <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-3">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2">Components</p>
-                    <InputField label="Com 1 — Colour" id="">
-                      <select value={cov.com1} onChange={e => update("com1", e.target.value)} className={selectCls}>
-                        {com1ColorOptions.map(o => <option key={o}>{o}</option>)}
-                      </select>
-                    </InputField>
-                    <InputField label="Brackets" id="">
-                      <select value={cov.brackets} onChange={e => update("brackets", e.target.value)} className={selectCls}>
-                        {bracketOptions.map(o => <option key={o}>{o}</option>)}
-                      </select>
-                    </InputField>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* Tab: NOTES */}
-            {activeTab === "notes" && (
-              <motion.div initial={{opacity:0, y:5}} animate={{opacity:1, y:0}} className="space-y-6">
-                <div className="rounded-xl border border-border/60 p-4 bg-muted/5">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2 mb-3">Position References</p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {(["above","uc","ceil","floor"] as const).map(f => (
-                      <InputField key={f} label={f === "above" ? "Above" : f === "uc" ? "UC" : f === "ceil" ? "Ceiling" : "Floor"} id="">
-                        <input type="text" value={cov[f]} onChange={e => update(f, e.target.value)}
-                          className={inputCls} placeholder="—" />
+                  {/* Mounting */}
+                  <div className="space-y-4">
+                    <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2">Mounting Point</p>
+                      <InputField label="M1 — Width Range" id="">
+                        <select value={cov.m1} onChange={e => update("m1", e.target.value)} className={selectCls}>
+                          {m1Options.map(o => <option key={o}>{o}</option>)}
+                        </select>
                       </InputField>
-                    ))}
-                  </div>
-                </div>
+                      <InputField label="M3 — Drop Range" id="">
+                        <select value={cov.m3} onChange={e => update("m3", e.target.value)} className={selectCls}>
+                          {m3Options.map(o => <option key={o}>{o}</option>)}
+                        </select>
+                      </InputField>
+                      <InputField label="M4 — Fixing Point" id="">
+                        <select value={cov.m4} onChange={e => update("m4", e.target.value)} className={selectCls}>
+                          {m4Options.map(o => <option key={o}>{o}</option>)}
+                        </select>
+                      </InputField>
+                      <InputField label="Surface" id="">
+                        <select value={cov.surface} onChange={e => update("surface", e.target.value)} className={selectCls}>
+                          {surfaceOptions.map(o => <option key={o}>{o}</option>)}
+                        </select>
+                      </InputField>
+                    </div>
 
-                <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-4">
-                  <div className="flex items-center justify-between border-b border-border/40 pb-2">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Status & Notes</p>
-                    <div className="flex gap-2">
-                      <TogglePill label="Quoted" checked={cov.quotationSent} onChange={v => update("quotationSent", v)} />
-                      <TogglePill label="Changed" checked={cov.quotationChanged} onChange={v => update("quotationChanged", v)} />
+                    <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-3">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2">Components</p>
+                      <InputField label="Com 1 — Colour" id="">
+                        <select value={cov.com1} onChange={e => update("com1", e.target.value)} className={selectCls}>
+                          {com1ColorOptions.map(o => <option key={o}>{o}</option>)}
+                        </select>
+                      </InputField>
+                      <InputField label="Brackets" id="">
+                        <select value={cov.brackets} onChange={e => update("brackets", e.target.value)} className={selectCls}>
+                          {bracketOptions.map(o => <option key={o}>{o}</option>)}
+                        </select>
+                      </InputField>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InputField label="Product Note" id="">
-                      <NoteTextarea value={cov.productNote} onChange={v => update("productNote", v)} placeholder="Product-specific instructions…" />
-                    </InputField>
-                    <InputField label="Production Note" id="">
-                      <NoteTextarea value={cov.productionNote} onChange={v => update("productionNote", v)} placeholder="Manufacturing notes…" />
-                    </InputField>
-                    <InputField label="Installation Note" id="">
-                      <NoteTextarea value={cov.installNote} onChange={v => update("installNote", v)} placeholder="Installer instructions…" />
-                    </InputField>
-                    <InputField label="Quotation Note" id="">
-                      <NoteTextarea value={cov.quotationNote} onChange={v => update("quotationNote", v)} placeholder="Notes for pricing…" />
-                    </InputField>
+                </motion.div>
+              )}
+
+              {/* Tab: NOTES */}
+              {activeTab === "notes" && (
+                <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                  <div className="rounded-xl border border-border/60 p-4 bg-muted/5">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground border-b border-border/40 pb-2 mb-3">Position References</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {(["above", "uc", "ceil", "floor"] as const).map(f => (
+                        <InputField key={f} label={f === "above" ? "Above" : f === "uc" ? "UC" : f === "ceil" ? "Ceiling" : "Floor"} id="">
+                          <input type="text" value={cov[f]} onChange={e => update(f, e.target.value)}
+                            className={inputCls} placeholder="—" />
+                        </InputField>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            )}
-          </div>
-        </motion.div>
-      )}
+
+                  <div className="rounded-xl border border-border/60 p-4 bg-muted/5 space-y-4">
+                    <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Status & Notes</p>
+                      <div className="flex gap-2">
+                        <TogglePill label="Quoted" checked={cov.quotationSent} onChange={v => update("quotationSent", v)} />
+                        <TogglePill label="Changed" checked={cov.quotationChanged} onChange={v => update("quotationChanged", v)} />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputField label="Product Note" id="">
+                        <NoteTextarea value={cov.productNote} onChange={v => update("productNote", v)} placeholder="Product-specific instructions…" />
+                      </InputField>
+                      <InputField label="Production Note" id="">
+                        <NoteTextarea value={cov.productionNote} onChange={v => update("productionNote", v)} placeholder="Manufacturing notes…" />
+                      </InputField>
+                      <InputField label="Installation Note" id="">
+                        <NoteTextarea value={cov.installNote} onChange={v => update("installNote", v)} placeholder="Installer instructions…" />
+                      </InputField>
+                      <InputField label="Quotation Note" id="">
+                        <NoteTextarea value={cov.quotationNote} onChange={v => update("quotationNote", v)} placeholder="Notes for pricing…" />
+                      </InputField>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* No Covering minimal display */}
       <AnimatePresence initial={false}>
-      {expanded && cov.coveringType === "No Covering" && (
-        <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
-          <div className="px-5 pb-4 pt-2 border-t border-border/30">
-            <div className="flex items-center gap-3">
-              <select value={cov.coveringType} onChange={e => update("coveringType", e.target.value as CoveringType)} className={selectCls + " max-w-xs"}>
-                {coveringTypes.map(t => <option key={t}>{t}</option>)}
-              </select>
-              <p className="text-sm text-muted-foreground italic">No window covering needed for this location.</p>
+        {expanded && cov.coveringType === "No Covering" && (
+          <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
+            <div className="px-5 pb-4 pt-2 border-t border-border/30">
+              <div className="flex items-center gap-3">
+                <select value={cov.coveringType} onChange={e => update("coveringType", e.target.value as CoveringType)} className={selectCls + " max-w-xs"}>
+                  {coveringTypes.map(t => <option key={t}>{t}</option>)}
+                </select>
+                <p className="text-sm text-muted-foreground italic">No window covering needed for this location.</p>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );
@@ -533,52 +520,57 @@ function CoveringForm({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function NewMeasurementPage() {
-
   // ── Step state ─────────────────────────────────────────────────────────────
   const [step, setStep] = useState<1 | 2>(1);
 
-  // ── Step 1: Customer / Site Info ───────────────────────────────────────────
-  const [clientName, setClientName] = useState("");
-  const [clientAddress, setClientAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [customer, setCustomer] = useState("");
-  const [jobId, setJobId] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
-  const [parkingFlexibility, setParkingFlexibility] = useState("");
-  const [findUs, setFindUs] = useState("");
-  const [pets, setPets] = useState("");
-  const [explainProduct, setExplainProduct] = useState("");
-  const [clientUnderstandsLevel, setClientUnderstandsLevel] = useState("");
-  const [customerOrigin, setCustomerOrigin] = useState("");
-  const [colourTheme, setColourTheme] = useState("");
-  const [fabricSelection, setFabricSelection] = useState("");
-  const [componentsSelection, setComponentsSelection] = useState("");
-  const [changesToGetDeposit, setChangesToGetDeposit] = useState("");
-  const [houseType, setHouseType] = useState("House");
-  const [existingCovering, setExistingCovering] = useState("");
-  const [clearances, setClearances] = useState("");
-  const [damageHoles, setDamageHoles] = useState("");
-  const [installationTimeframe, setInstallationTimeframe] = useState("");
-  const [jobType, setJobType] = useState("New Installation");
-  const [jobHardness, setJobHardness] = useState("Standard");
-  const [numberOfInstallers, setNumberOfInstallers] = useState("2");
-  const [measurementsNote, setMeasurementsNote] = useState("");
-  const [measuredOrder, setMeasuredOrder] = useState("Room by Room");
-  const [windowsStats, setWindowsStats] = useState("");
-  const [floorStates, setFloorStates] = useState("Ground");
-  const [checkMeasurements, setCheckMeasurements] = useState("");
-  const [installationNote, setInstallationNote] = useState("");
-  const [productNote, setProductNote] = useState("");
-  const [photos, setPhotos] = useState("");
-  const [dateTime, setDateTime] = useState("");
+  const [clientInfo, setClientInfo] = useState<ClientInfo>({
+    customerType: "New",
+    clientName: "",
+    clientAddress: "",
+    email: "",
+    contactNumber: "",
+    customer: "",
+    jobId: "",
+    depositPaid: false,
+    date: new Date().toISOString().slice(0, 10),
+    parkingFlexibility: "",
+    findUs: "",
+    pets: "",
+    explainProduct: "",
+    clientUnderstandsLevel: "",
+    customerOrigin: "",
+    colourTheme: "",
+    fabricSelection: "",
+    componentsSelection: "",
+    changesToGetDeposit: "",
+    houseType: "House",
+    existingCovering: "",
+    clearances: "",
+    damageHoles: "",
+    installationTimeframe: "",
+    jobType: "New Installation",
+    jobHardness: "Standard",
+    numberOfInstallers: "2",
+    measurementsNote: "",
+    measuredOrder: "Room by Room",
+    windowsStats: "",
+    floorStates: "Ground",
+    checkMeasurements: "",
+    installationNote: "",
+    productNote: "",
+    photos: "",
+    dateTime: "",
+  });
+
+  const updateClientInfo = (field: keyof ClientInfo, val: any) => {
+    setClientInfo(prev => ({ ...prev, [field]: val }));
+  };
 
   // ── Step 2: Window Measurements ────────────────────────────────────────────
   const [locations, setLocations] = useState<WindowLocation[]>([newLocation(1)]);
   const [nextLocId, setNextLocId] = useState(2);
   const [activeLocId, setActiveLocId] = useState(1);
 
-  // Location helpers
   const addLocation = useCallback(() => {
     const loc = newLocation(nextLocId);
     setLocations(p => [...p, loc]);
@@ -602,7 +594,7 @@ export default function NewMeasurementPage() {
   const deleteLocation = useCallback((locId: number) => {
     setLocations(p => {
       const remaining = p.filter(l => l.id !== locId);
-      if (remaining.length === 0) return p; // prevent deleting all
+      if (remaining.length === 0) return p;
       return remaining;
     });
     setActiveLocId(p => {
@@ -616,7 +608,6 @@ export default function NewMeasurementPage() {
     setLocations(p => p.map(l => l.id === locId ? { ...l, locationName: name } : l));
   }, []);
 
-  // Covering helpers
   const addCovering = useCallback((locId: number) => {
     const cov = newCovering();
     setLocations(p => p.map(l => l.id === locId ? { ...l, coverings: [...l.coverings, cov] } : l));
@@ -643,18 +634,7 @@ export default function NewMeasurementPage() {
   }, []);
 
   const handleSave = () => {
-    const payload = {
-      clientInfo: {
-        clientName, clientAddress, email, contactNumber, customer, jobId, date,
-        parkingFlexibility, findUs, pets, explainProduct, clientUnderstandsLevel,
-        customerOrigin, colourTheme, fabricSelection, componentsSelection,
-        changesToGetDeposit, houseType, existingCovering, clearances, damageHoles,
-        installationTimeframe, jobType, jobHardness, numberOfInstallers,
-        measurementsNote, measuredOrder, windowsStats, floorStates,
-        checkMeasurements, installationNote, productNote, photos, dateTime,
-      },
-      locations,
-    };
+    const payload = { clientInfo, locations };
     console.log("Saved measurement sheet:", payload);
     alert("✅ Measurement sheet saved successfully!");
   };
@@ -663,9 +643,9 @@ export default function NewMeasurementPage() {
 
   // ─── Step 1 Render ─────────────────────────────────────────────────────────
   const renderStep1 = () => (
-    <motion.div 
-      initial={{ opacity: 0, x: -10 }} 
-      animate={{ opacity: 1, x: 0 }} 
+    <motion.div
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 10 }}
       className="space-y-6"
     >
@@ -853,9 +833,9 @@ export default function NewMeasurementPage() {
 
   // ─── Step 2 Render ─────────────────────────────────────────────────────────
   const renderStep2 = () => (
-    <motion.div 
-      initial={{ opacity: 0, x: 10 }} 
-      animate={{ opacity: 1, x: 0 }} 
+    <motion.div
+      initial={{ opacity: 0, x: 10 }}
+      animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -10 }}
       className="space-y-6"
     >
@@ -890,14 +870,13 @@ export default function NewMeasurementPage() {
               <Plus className="h-4 w-4" />
             </button>
           </div>
-          
+
           {/* Mobile Location Selector (horizontal) */}
           <div className="lg:hidden flex gap-2 overflow-x-auto pb-2 no-scrollbar">
             {locations.map((loc, idx) => (
               <button key={loc.id} type="button" onClick={() => setActiveLocId(loc.id)}
-                className={`flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm ${
-                  activeLocId === loc.id ? "bg-accent text-accent-foreground" : "bg-card border border-border text-foreground hover:bg-muted/50"
-                }`}>
+                className={`flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm ${activeLocId === loc.id ? "bg-accent text-accent-foreground" : "bg-card border border-border text-foreground hover:bg-muted/50"
+                  }`}>
                 {loc.locationName || `Loc ${idx + 1}`}
               </button>
             ))}
@@ -914,15 +893,13 @@ export default function NewMeasurementPage() {
                 key={loc.id}
                 type="button"
                 onClick={() => setActiveLocId(loc.id)}
-                className={`group flex items-center gap-3 rounded-xl px-3 py-3 text-left transition-all duration-200 ${
-                  activeLocId === loc.id
+                className={`group flex items-center gap-3 rounded-xl px-3 py-3 text-left transition-all duration-200 ${activeLocId === loc.id
                     ? "bg-accent/10 border-accent/20 text-accent shadow-sm"
                     : "bg-card border-transparent text-foreground hover:bg-muted/40"
-                } border`}
+                  } border`}
               >
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                  activeLocId === loc.id ? "bg-accent text-accent-foreground" : "bg-muted/60 text-muted-foreground"
-                }`}>
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 ${activeLocId === loc.id ? "bg-accent text-accent-foreground" : "bg-muted/60 text-muted-foreground"
+                  }`}>
                   {idx + 1}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -945,69 +922,69 @@ export default function NewMeasurementPage() {
 
         {/* Right: active location detail */}
         <AnimatePresence mode="wait">
-        {activeLoc && (
-          <motion.div 
-            key={activeLoc.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className="flex-1 min-w-0 space-y-4"
-          >
-            {/* Location header */}
-            <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden p-6 mb-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center text-accent font-bold text-xl ring-4 ring-accent/5">
-                  {locations.findIndex(l => l.id === activeLoc.id) + 1}
-                </div>
-                <div className="flex-1">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Window / Room Location</p>
-                  <input
-                    value={activeLoc.locationName}
-                    onChange={e => updateLocName(activeLoc.id, e.target.value)}
-                    placeholder="e.g. Master Bedroom, Living Bifold"
-                    className="w-full text-xl md:text-2xl font-bold bg-transparent outline-none text-foreground placeholder:text-muted-foreground/30"
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="icon" onClick={() => duplicateLocation(activeLoc.id)} title="Duplicate location">
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                  {locations.length > 1 && (
-                    <Button variant="outline" size="icon" onClick={() => deleteLocation(activeLoc.id)}
-                      className="text-muted-foreground hover:text-red-500 hover:border-red-200" title="Delete location">
-                      <Trash2 className="h-4 w-4" />
+          {activeLoc && (
+            <motion.div
+              key={activeLoc.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              className="flex-1 min-w-0 space-y-4"
+            >
+              {/* Location header */}
+              <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden p-6 mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center text-accent font-bold text-xl ring-4 ring-accent/5">
+                    {locations.findIndex(l => l.id === activeLoc.id) + 1}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Window / Room Location</p>
+                    <input
+                      value={activeLoc.locationName}
+                      onChange={e => updateLocName(activeLoc.id, e.target.value)}
+                      placeholder="e.g. Master Bedroom, Living Bifold"
+                      className="w-full text-xl md:text-2xl font-bold bg-transparent outline-none text-foreground placeholder:text-muted-foreground/30"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="icon" onClick={() => duplicateLocation(activeLoc.id)} title="Duplicate location">
+                      <Copy className="h-4 w-4" />
                     </Button>
-                  )}
+                    {locations.length > 1 && (
+                      <Button variant="outline" size="icon" onClick={() => deleteLocation(activeLoc.id)}
+                        className="text-muted-foreground hover:text-red-500 hover:border-red-200" title="Delete location">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Coverings List */}
-            <div className="space-y-4">
-              {activeLoc.coverings.map((cov, index) => (
-                <CoveringForm
-                  key={cov.id}
-                  cov={cov}
-                  locId={activeLoc.id}
-                  update={(field, val) => updateCovering(activeLoc.id, cov.id, field, val)}
-                  onDelete={() => deleteCovering(activeLoc.id, cov.id)}
-                  showDelete={activeLoc.coverings.length > 1}
-                />
-              ))}
-            </div>
+              {/* Coverings List */}
+              <div className="space-y-4">
+                {activeLoc.coverings.map((cov, index) => (
+                  <CoveringForm
+                    key={cov.id}
+                    cov={cov}
+                    locId={activeLoc.id}
+                    update={(field, val) => updateCovering(activeLoc.id, cov.id, field, val)}
+                    onDelete={() => deleteCovering(activeLoc.id, cov.id)}
+                    showDelete={activeLoc.coverings.length > 1}
+                  />
+                ))}
+              </div>
 
-            {/* Add covering buttons */}
-            <div className="flex gap-3 pt-4 border-t border-border mt-6">
-              <Button onClick={() => addCovering(activeLoc.id)} className="gap-2 bg-muted/50 hover:bg-muted text-foreground border border-border shadow-sm">
-                <Plus className="h-4 w-4 text-accent" /> Add Another Component / Layer
-              </Button>
-              <Button variant="ghost" onClick={() => addNoCovering(activeLoc.id)} className="gap-2 text-muted-foreground hover:text-foreground">
-                Mark as "No Covering"
-              </Button>
-            </div>
-          </motion.div>
-        )}
+              {/* Add covering buttons */}
+              <div className="flex gap-3 pt-4 border-t border-border mt-6">
+                <Button onClick={() => addCovering(activeLoc.id)} className="gap-2 bg-muted/50 hover:bg-muted text-foreground border border-border shadow-sm">
+                  <Plus className="h-4 w-4 text-accent" /> Add Another Component / Layer
+                </Button>
+                <Button variant="ghost" onClick={() => addNoCovering(activeLoc.id)} className="gap-2 text-muted-foreground hover:text-foreground">
+                  Mark as "No Covering"
+                </Button>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
@@ -1040,7 +1017,7 @@ export default function NewMeasurementPage() {
             <p className="text-sm text-muted-foreground mt-1">Record site dimensions and specifications.</p>
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Step Indicator */}
       <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-2 no-scrollbar">
@@ -1052,17 +1029,15 @@ export default function NewMeasurementPage() {
             <button
               type="button"
               onClick={() => setStep(n as 1 | 2)}
-              className={`flex items-center gap-2.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                step === n
+              className={`flex items-center gap-2.5 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${step === n
                   ? "bg-foreground text-background shadow-lg"
                   : step > n
-                  ? "bg-green-500/15 text-green-600 dark:text-green-400"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
+                    ? "bg-green-500/15 text-green-600 dark:text-green-400"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
             >
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                step === n ? "bg-background/20" : step > n ? "bg-green-500/20" : "bg-muted-foreground/15"
-              }`}>
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${step === n ? "bg-background/20" : step > n ? "bg-green-500/20" : "bg-muted-foreground/15"
+                }`}>
                 {step > n ? <CheckCircle className="h-3 w-3" /> : n}
               </div>
               <Icon className="h-4 w-4" />
