@@ -3,7 +3,7 @@ import { Inventory } from './types';
 
 export const getInventory = async (productId?: string) => {
   try {
-    let query = supabase.from('inventory').select('*, product:products_catalog(*, category:categories(name))').order('updated_at', { ascending: false });
+    let query = supabase.from('inventory').select('*, product:products_catalog(*, category:categories!products_catalog_category_id_fkey(name))').order('updated_at', { ascending: false });
     if (productId) query = query.eq('product_id', productId);
     
     const { data, error } = await query;

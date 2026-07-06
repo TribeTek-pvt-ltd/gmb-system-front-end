@@ -105,6 +105,7 @@ export type Supplier = {
   phone: string | null;
   email: string | null;
   status: 'Active' | 'Inactive';
+  order_placement_method: 'Email' | 'Manual' | null;
   created_at: string;
 };
 

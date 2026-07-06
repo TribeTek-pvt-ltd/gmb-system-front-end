@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { EntityCard } from "@/components/shared/EntityCard";
 import { getSuppliers, updateSupplier, createSupplier } from "@/lib/db/suppliers";
 import { Supplier } from "@/lib/db/types";
-import { SupplierForm } from "@/components/suppliers/SupplierForm";
+import { SupplierForm, SupplierFormData } from "@/components/suppliers/SupplierForm";
+import { createProductSupplier } from "@/lib/db/product_suppliers";
 
 const statusColors: Record<string, string> = {
   Active:     "bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-500/20",
@@ -48,9 +49,18 @@ export default function SuppliersPage() {
     }
   };
 
-  const handleSave = async (data: any) => {
+  const handleSave = async (data: SupplierFormData) => {
     try {
-      await createSupplier(data);
+      const { linked_product_ids, ...supplierData } = data;
+      const created = await createSupplier(supplierData as Omit<Supplier, 'supplier_id' | 'created_at'>);
+      // Link selected products
+      if (linked_product_ids.length > 0) {
+        await Promise.all(
+          linked_product_ids.map((pid) =>
+            createProductSupplier({ products_catalog_id: pid, supplier_id: created.supplier_id })
+          )
+        );
+      }
       await fetchSuppliers();
     } catch (err: any) {
       alert("Failed to save supplier: " + err.message);
